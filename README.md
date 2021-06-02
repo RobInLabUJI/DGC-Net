@@ -1,9 +1,11 @@
 # DGC-Net: Dense Geometric Correspondence Network
 This is a PyTorch implementation of our work ["DGC-Net: Dense Geometric Correspondence Network"](https://arxiv.org/abs/1810.08393)
 
-**TL;DR** A CNN-based approach to obtain dense pixel correspondences between two views.
+A CNN-based approach to obtain dense pixel correspondences between two views.
 
 ## Installation
+
+### With conda
 - create and activate conda environment with Python 3.x
 ```
 conda create -n my_fancy_env python=3.7
@@ -17,7 +19,20 @@ pip install torch torchvision
 ```
 pip install -r requirements.txt
 ```
-
+### With pip
+- create and activate virtual environment with Python 3.x
+```
+python3 -m venv dgc-env
+source dgc-env/bin/activate
+```
+- install Pytorch and torchvision library
+```
+pip install torch torchvision
+```
+- install all dependencies by running the following command:
+```
+pip install termcolor opencv-python tqdm pandas
+```
 ## Getting started
 * ```eval.py``` demonstrates the results on the HPatches dataset
 To be able to run ```eval.py``` script:

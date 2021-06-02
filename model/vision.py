@@ -67,21 +67,21 @@ class DGCVision:
     def getFlow(self):
         self.correspondence_map = self.estimates_grid_pyr[-1].permute(0, 2, 3, 1).cpu().numpy()[0]
         size = self.IMG_SIZE[0]
-        flow = np.zeros((size, size, 2,))
+        self.flow = np.zeros((size, size, 2,))
         for i in range(size):
             for j in range(size):
                 ws, hs = j * 2.0 / size - 1, i * 2.0 / size - 1
-                flow[i,j] = np.array([ws,hs]) - self.correspondence_map[i,j]
-        return flow
+                self.flow[i,j] = np.array([ws,hs]) - self.correspondence_map[i,j]
+        return self.flow
         
-    def target(self, x, y, match_threshold=0):
+    def target(self, x, y, match_threshold=0, flow_threshold=0.5):
         size = self.IMG_SIZE[0]
         xs = x * size / self.inputShape[1]
         ys = y * size / self.inputShape[0]
         ws, hs = xs * 2.0 / size - 1, ys * 2.0 / size - 1
-        # d = np.zeros((size,size,2))
         d = np.full((size,size,2,),float('inf'))
-        mask = self.matchability_mask > match_threshold
+        mask = np.logical_and(self.matchability_mask > match_threshold, 
+                              np.linalg.norm(self.flow,axis=2) > flow_threshold)
         d[mask,0] = self.correspondence_map[mask,0] - ws
         d[mask,1] = self.correspondence_map[mask,1] - hs
         m = np.linalg.norm(d,axis=2)

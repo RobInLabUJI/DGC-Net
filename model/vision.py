@@ -90,4 +90,11 @@ class DGCVision:
         yt = yt * self.inputShape[0] / size
         return (xt, yt)
 
-             
+    def source(self, x, y):
+        size = self.IMG_SIZE[0]
+        xt = int(x * size / self.inputShape[1])
+        yt = int(y * size / self.inputShape[0])
+        xs, ys = self.correspondence_map[yt,xt]
+        return (xs + 1) / 2 * self.inputShape[1], (ys + 1) / 2 * self.inputShape[0]
+        
+        

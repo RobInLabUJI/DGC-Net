@@ -26,6 +26,9 @@ flow = dgc.getFlow()
 cv2.namedWindow('Warped image')
 cv2.imshow('Warped image', cv2.cvtColor(warp_img, cv2.COLOR_RGB2BGR))
 
+cv2.namedWindow('Matchability mask')
+cv2.imshow('Matchability mask', cv2.normalize(cv2.resize(match_mask, (640,360,)),None, alpha=0, beta=1, norm_type=cv2.NORM_MINMAX))
+
 cv2.namedWindow('DGC-Net')
 
 def onMouse(event, x, y, flags, param):

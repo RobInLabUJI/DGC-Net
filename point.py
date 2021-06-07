@@ -32,11 +32,16 @@ cv2.namedWindow('DGC-Net')
 
 def onMouse(event, x, y, flags, param):
     global color
-    if event == cv2.EVENT_LBUTTONDOWN and x < 640:
+    if event == cv2.EVENT_LBUTTONDOWN:
        color = (color+1) % len(COLORS)
-       cv2.circle(img,(x,y),10,COLORS[color],-1)
-       xt, yt = dgc.target(x,y)
-       cv2.circle(img,(round(xt+640),round(yt)),10,COLORS[color],-1)
+       cv2.circle(img,(x,y),5,COLORS[color],-1)
+       if x < 640:
+           print(x,y)
+           xt, yt = dgc.target(x,y,0,0)
+           cv2.circle(img,(round(xt+640),round(yt)),5,COLORS[color],-1)
+       else:
+           xs, ys = dgc.source(x-640,y)
+           cv2.circle(img,(round(xs),round(ys)),5,COLORS[color],-1)
 
 cv2.setMouseCallback('DGC-Net', onMouse)
 
